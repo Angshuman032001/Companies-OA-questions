@@ -23,6 +23,8 @@ rrlrlr
 OUTPUT:
 7
 
+https://leetcode.com/discuss/interview-question/881527/Paths-to-a-Goal-%3A-Hackerrank/723011
+
 */
 
 #include "bits/stdc++.h"
