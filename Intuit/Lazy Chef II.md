@@ -56,24 +56,55 @@ We either move L1 to the left or L2 to the left.
 Compute it with the same logic as the above.
 ```
 
-```java
-private static int solve(String s, char a, char b){ // Java
-      int aCount = (int)s.chars().filter(o -> o == a).count();
-      int bCount = (int)s.chars().filter(o -> o == b).count();
-      int must = 0, option1 = 0, option2 = 0, left = 0;
-      for (char ch : s.toCharArray()){
-          if (ch == a){
-              aCount--;
-              option1 += bCount;
-              left++;
-          }else if (ch == b){
-              bCount--;
-              option2 += aCount;
-              left++;
-          }else{
-              must += Math.min(aCount+bCount, left);
-          }
-      }
-      return must + Math.min(option1, option2);
-  }
-    ```
+```cpp
+//https://leetcode.com/discuss/interview-question/2492460/Intuit-India-or-OA-or-LAZY-CHEF-II
+#include "bits/stdc++.h"
+
+using namespace std;
+
+int32_t main(){
+
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
+    string s; cin>>s;
+    char a, b; cin>>a>>b;
+
+    int index = 0;
+    int a_cnt = 0, b_cnt = 0, take = 0, first_option = 0, second_option = 0, remaining = 0;
+    while(index < size(s)){
+        a_cnt += (s[index] == a);
+        b_cnt += (s[index] == b);
+        index++;
+    }
+
+    int ans = 0;
+
+    index = 0;
+    while(index < size(s)){
+        char currChar = s[index];
+        if(currChar != a && currChar != b){
+            take += min(a_cnt + b_cnt, remaining);
+        }
+        else{
+            if(currChar == a){
+                a_cnt--;
+                first_option += b_cnt;
+                remaining++;
+            }
+            else{
+                b_cnt--;
+                second_option += a_cnt;
+                remaining++;
+            }
+        }
+        index++;
+    }
+
+    ans = take;
+    ans += min(first_option, second_option);
+
+    cout<<ans;
+
+
+}
+```
