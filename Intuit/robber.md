@@ -111,7 +111,7 @@ void solve(){
         if(!isInSubtree(child, r)) ans = max(ans, dp[child]);
     }
 
-    function<void(int,int,int)>dfs2 = [&](int node, int par, int sum){
+     function<void(int,int,int)>dfs2 = [&](int node, int par, int sum){
         int mx = 0;
         for(auto child : adj[node]){
             if(child != par && !isInSubtree(child, r)){
@@ -123,10 +123,10 @@ void solve(){
         else if(policeTime[node] == robberTime[node]) currScore = coins[node] / 2;
         ans = max(ans, sum + mx + currScore);
         for(auto child : adj[node]){
-            if(child != par && isInSubtree(child, r)) dfs2(child, node, sum + currScore);
+            if(child != par) dfs2(child, node, sum + currScore);
         }
-    };
-
+    };    
+    
     dfs2(1, 0, 0);
 
     cout<<ans<<nl;
