@@ -38,7 +38,7 @@ void solve(){
         curr = parent[curr];
     }
 
-    int ans = 0;
+    int ans = -inf;
     for(int leaf : leafNodes){
         int points = 0;
         int curr = leaf;
@@ -47,16 +47,17 @@ void solve(){
                 points += coins[curr];
             }
             else if(policeTime[curr] == robberTime[curr]){
-                points += coins[curr] / 2;
+                if(coins[curr] < 0){
+                    points += (coins[curr] - 1) / 2;
+                }
+                else points += coins[curr] / 2;
             }
             curr = parent[curr];
         }
-        if(points == 64) deb(leaf);
         ans = max(ans, points);
     }
 
     cout<<ans<<nl;
-
 }
 
 ```
@@ -70,7 +71,7 @@ void solve(){
     int n, r; cin>>n>>r;
     vector<int>coins(n + 1);
     vector<vector<int>> adj(n + 1);
-    vector<int> parent(n + 1, 0), robberTime(n + 1, inf), policeTime(n + 1, 0), dp(n + 1, 0), tin(n + 1, 0), tout(n + 1, 0);
+    vector<int> parent(n + 1, 0), robberTime(n + 1, inf), policeTime(n + 1, 0), dp(n + 1, -inf), tin(n + 1, 0), tout(n + 1, 0);
     int timer = 0;
     rep(i, 1, n + 1) cin>>coins[i];
 
@@ -83,18 +84,23 @@ void solve(){
     function<void(int, int, int)>dfs1 = [&](int node, int par, int lvl){
         parent[node] = par;
         policeTime[node] = lvl;
-        dp[node] = coins[node];
         tin[node] = timer++;
+        int cntChild = 0;
+        int mx = -inf;
         for(auto child : adj[node]){
             if(child != par){
                 dfs1(child, node, lvl + 1);
-                dp[node] = max(dp[node], coins[node] + dp[child]);
+                cntChild++;
+                mx = max(mx, dp[child]);
             }
         }
+        if(cntChild == 0) dp[node] = coins[node];
+        else dp[node] = mx + coins[node];
         tout[node] = timer++;
     };
 
     dfs1(1, 0, 0);
+
     int curr = r;
     int time = 0;
     while(curr != 0){
@@ -106,30 +112,36 @@ void solve(){
         return tin[root] <= tin[node] && tout[root] >= tout[node];
     };
 
-    int ans = 0;
-    for(auto child : adj[1]){
-        if(!isInSubtree(child, r)) ans = max(ans, dp[child]);
-    }
-
-     function<void(int,int,int)>dfs2 = [&](int node, int par, int sum){
-        int mx = 0;
+    int ans = -inf;
+    function<void(int,int,int)>dfs2 = [&](int node, int par, int sum){
+        int mx = -inf;
+        int cntChild = 0;
         for(auto child : adj[node]){
             if(child != par && !isInSubtree(child, r)){
                 mx = max(mx, dp[child]);
+                cntChild++;
             }
         }
         int currScore = 0;
         if(policeTime[node] < robberTime[node]) currScore = coins[node];
-        else if(policeTime[node] == robberTime[node]) currScore = coins[node] / 2;
-        ans = max(ans, sum + mx + currScore);
+        else if(policeTime[node] == robberTime[node]){
+            if(coins[node] > 0) currScore += coins[node] / 2;
+            else currScore += (coins[node] - 1) / 2;
+        }
+
+        if(cntChild > 0){
+            ans = max(ans, sum + mx + currScore);
+        }
+        else if(sz(adj[node]) == 1 && node != 1){ 
+            ans = max(ans, sum + currScore);
+        }
         for(auto child : adj[node]){
             if(child != par) dfs2(child, node, sum + currScore);
         }
-    };    
-    
+    };
+
     dfs2(1, 0, 0);
 
     cout<<ans<<nl;
 }
-
 ```
