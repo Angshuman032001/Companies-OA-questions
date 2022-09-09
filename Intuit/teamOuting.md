@@ -1,4 +1,4 @@
-```
+```cpp
 #include "bits/stdc++.h"
 #define int long long
 #define setbits(x) __builtin_popcountll(x)
