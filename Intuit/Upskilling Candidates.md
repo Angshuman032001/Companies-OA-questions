@@ -77,6 +77,7 @@ int32_t main(){
     vector<vector<int>>dp(m, vector<int>((1ll << (n + 1)), -1));
 
     int ans = solve(0, haveMask, requiredMask, bookCost, bookMaskValue, dp);
+    if(ans > 1e5) ans = -1;
     cout<<ans;
 
 }
