@@ -36,45 +36,37 @@ Explanation
 ## Solution :
 
 ```cpp
-#include<bits/stdc++.h>
+#include "bits/stdc++.h"
+#define int long long
+
 using namespace std;
 
+int32_t main(){
 
-int n,x,y;
-vector<int> a;
-vector<long long> prefix;
-map<long long,int> mp;
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
+    int n; cin>>n;
+    vector<int>v(n);
+    for(auto &x : v) cin>>x;
+    int x, y; cin>>x>>y;
 
-int main(){
-
-   cin>>n;
-   a.resize(n);
-   for(int i=0;i<n;i++){
-      cin>>a[i];
-   }
-   cin>>x>>y;
-   for(int i=0;i<n;i++)
-   if(a[i]==0)a[i]=y;
-   else a[i]=x;
-
-    prefix.resize(n+1);
-    prefix[0]=0;
-    for(int i=0;i<n;i++)
-    prefix[i+1]=prefix[i]+a[i];
-
-    for(int i=0;i<n;i++){
-        mp[prefix[i]]++;
+    for(auto &i : v){
+        if(i == 0) i = -y;
+        else i = x;
     }
 
-    long long ans=0;
+    map<int, int>m;
+    m[0] = 1;
 
-    for(auto &c:mp){
-        ans+=(long long)c.second*(c.second-1)/2;
+    int currSum = 0;
+    int ans = 0;
+    for(auto x : v){
+        currSum += x;
+        ans += m[currSum];
+        m[currSum]++;
     }
 
-    cout<<ans<<endl;
+    cout<<ans<<"\n";
 
-    return 0;
 }
 ```
