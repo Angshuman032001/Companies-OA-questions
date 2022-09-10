@@ -1,3 +1,11 @@
+## Statement
+
+![](https://assets.leetcode.com/users/images/993cb79a-7871-42cc-9971-daac95f8bc3e_1662785305.9158816.jpeg)
+![](https://assets.leetcode.com/users/images/09476c64-c9ce-4325-969f-db6706aa8d10_1662785279.5332432.jpeg)
+![](https://assets.leetcode.com/users/images/3c44acee-fdc8-4e91-bb1d-1a38c3fa63dd_1662785191.0316675.jpeg)
+
+
+## Solution
 ```cpp
 #include "bits/stdc++.h"
 #define int long long
