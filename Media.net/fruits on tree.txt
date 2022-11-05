@@ -1,0 +1,8 @@
+My 5th Question Approach:- Since all the leaf nodes were at same level, so we needed to see for how many seconds continuously a node would drop fruits(call it Ans of Node) [As there was no such case where it'd not drop fruits continuously]. 
+While in a dfs, for a node, I calculated the [Sum] of fruits it recieved, and the [Max] number of fruit it recieved from all it'd children nodes. 
+The Ans of a Node was [Max]-min([Sum]-[Max],it's capacity). 
+You had to return Ans of Node[1] + the Depth of Leaf Nodes - 1
+
+I'd explain by an example, You have a Node say i (which is not a leaf node) with it's children's Ans being 5, 8, 15 respectively. Now you know, that atleast for 15 seconds, Node i would constantly drop fruits, which leaves you with 13(15+8+5-15) fruits after 15 seconds. Now if your capacity is something less than 13, say 9, then fruits would fall for 9 more seconds (the 4 would fall directly to ground), else it'd fall for 13 more seconds. It doesn't matter, when the 4 fruits fall to the ground. Note that Ans of Leaf Nodes is equal to the Number of fruits they have i.e. A[i].
+
+Now for the Actual Answer which you had to return, The 1st Fruit from Leaf Node takes 'Depth-1' time to reach the Node-1, Now if Root was leaf Node, then Ans would have been Ans of Node-1, and if it's not, then the answer is Ans of Node-1 +depth-1.
